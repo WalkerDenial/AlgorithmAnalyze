@@ -45,6 +45,8 @@ class ALGO0001 {
 
 fun main() {
     val clazz = ALGO0001()
-    println(clazz.twoSum1(intArrayOf(42, 34, 1, 6, 7, 87, 45, 7, 4, 9, 2, 423, 126), 127).contentToString())
-    println(clazz.twoSum2(intArrayOf(42, 34, 1, 6, 7, 87, 45, 7, 4, 9, 2, 423, 126), 127).contentToString())
+    val data = intArrayOf(42, 34, 1, 6, 7, 87, 45, 7, 4, 9, 2, 423, 126)
+    val target = 127
+    println(clazz.twoSum1(data, target).contentToString())
+    println(clazz.twoSum2(data, target).contentToString())
 }
