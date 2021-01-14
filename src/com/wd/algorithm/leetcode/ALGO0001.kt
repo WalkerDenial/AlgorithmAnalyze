@@ -1,5 +1,7 @@
 package com.wd.algorithm.leetcode
 
+import com.wd.algorithm.test
+
 /**
  * 1. 两数之和
  *
@@ -47,6 +49,6 @@ fun main() {
     val clazz = ALGO0001()
     val data = intArrayOf(42, 34, 1, 6, 7, 87, 45, 7, 4, 9, 2, 423, 126)
     val target = 127
-    println(clazz.twoSum1(data, target).contentToString())
-    println(clazz.twoSum2(data, target).contentToString())
+    (clazz::twoSum1).test(data, target)
+    (clazz::twoSum2).test(data, target)
 }

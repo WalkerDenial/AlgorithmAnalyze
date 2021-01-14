@@ -1,5 +1,7 @@
 package com.wd.algorithm.leetcode
 
+import com.wd.algorithm.test
+
 class ListNode(var `val`: Int) {
     var next: ListNode? = null
 }
@@ -19,7 +21,7 @@ class ALGO0002 {
      * 转换成对应的整数再进行计算，然后逆序输出
      * 时间复杂度 T(n)
      */
-    fun addTwoNumbers1(l1: ListNode?, l2: ListNode?): ListNode? {
+    fun addTwoNumbers1(l1: ListNode, l2: ListNode): ListNode {
         val str1 = l1.contentToString() // l1 逆序
         val str2 = l2.contentToString() // l2 逆序
         val num1 = if (str1.isBlank()) 0 else str1.reversed().toInt() // l1 真实数值
@@ -27,7 +29,7 @@ class ALGO0002 {
         val result = (num1 + num2).toString().reversed() // 求出结果并逆序
         val data = IntArray(result.length)  // 转换成数组
         for (i in result.indices) data[i] = result[i].toString().toInt()
-        return getListNode(data) // 获取返回结果
+        return getListNode(data)!! // 获取返回结果
     }
 
     /**
@@ -35,22 +37,22 @@ class ALGO0002 {
      * 按节点进位处理
      * 时间复杂度 T(n)
      */
-    fun addTwoNumbers2(l1: ListNode?, l2: ListNode?): ListNode? {
+    fun addTwoNumbers2(l1: ListNode, l2: ListNode): ListNode {
         var node = ListNode(0) // 待返回数据
-        var curr:ListNode? = node // 待返回数据当前节点
-        var currNode1 = l1 // l1 当前节点
-        var currNode2 = l2 // l2 当前节点
-        var offset = 0 // 进位值
+        var curr = node // 待返回数据当前节点
+        var currNode1: ListNode? = l1 // l1 当前节点
+        var currNode2: ListNode? = l2 // l2 当前节点
+        var carry = 0 // 进位值
         while (currNode1 != null || currNode2 != null) {
-            val result = (currNode1?.`val` ?: 0) + (currNode2?.`val` ?: 0) + offset
-            offset = result / 10
-            curr?.next = ListNode(result % 10)
-            curr = curr?.next
-            currNode1 = currNode1?.next
-            currNode2 = currNode2?.next
+            val result = (currNode1?.`val` ?: 0) + (currNode2?.`val` ?: 0) + carry
+            carry = result / 10
+            curr.next = ListNode(result % 10)
+            curr = curr.next!!
+            if (currNode1 != null) currNode1 = currNode1.next
+            if (currNode2 != null) currNode2 = currNode2.next
         }
-        if(offset > 0) curr?.next = ListNode(offset) // 虽然测试结束，如果有进位，需要增加一个节点
-        return node.next
+        if (carry == 1) curr?.next = ListNode(carry) // 虽然测试结束，如果有进位，需要增加一个节点
+        return node.next!!
     }
 
 }
@@ -61,15 +63,12 @@ fun main() {
     val l1 = getListNode(intArrayOf(9, 9, 9, 9, 9, 9, 9))
     val l2 = getListNode(intArrayOf(9, 9, 9, 9))
 
-    println("l1: " + l1.contentToString())
-    println("l2: " + l2.contentToString())
-
-    println("result: " + clazz.addTwoNumbers1(l1, l2).contentToString())
-    println("result: " + clazz.addTwoNumbers2(l1, l2).contentToString())
+    (clazz::addTwoNumbers1).test(l1, l2)
+    (clazz::addTwoNumbers2).test(l1, l2)
 }
 
-private fun getListNode(data: IntArray): ListNode? {
-    if (data.isEmpty()) return null
+private fun getListNode(data: IntArray): ListNode {
+    if (data.isEmpty()) return ListNode(0)
     var lastNode: ListNode? = null
     var node: ListNode? = null
     for (i in data) {
@@ -78,7 +77,7 @@ private fun getListNode(data: IntArray): ListNode? {
         else lastNode?.next = item
         lastNode = item
     }
-    return node
+    return node!!
 }
 
 private fun ListNode?.contentToString(): String {
