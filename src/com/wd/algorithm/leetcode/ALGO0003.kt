@@ -1,7 +1,5 @@
 package com.wd.algorithm.leetcode
 
-import kotlin.math.max
-
 /**
  * 3. 无重复字符的最长子串
  *
@@ -17,18 +15,20 @@ class ALGO0003 {
      */
     fun lengthOfLongestSubstring1(s: String): Int {
         if (s.isEmpty()) return 0
+        if (s.length == 1 || s.matches(Regex("(${s[0]})+"))) return 1
         var endIndex = 0
         var maxLength = 0
-        val set = hashSetOf<Char>()
+        val set = hashSetOf<String>()
         for (i in s.indices) {
             set.clear()
-            set.add(s[i])
+            set.add("${s[i]}")
+            endIndex = i
             for (j in (i + 1) until s.length) {
                 endIndex = j
-                if (set.contains(s[j])) break
-                else set.add(s[j])
+                if (set.contains("${s[j]}")) break
+                else set.add("${s[j]}")
             }
-            maxLength = max(maxLength, endIndex - i)
+            maxLength = Math.max(maxLength, endIndex - i)
         }
         return maxLength
     }
@@ -40,15 +40,16 @@ class ALGO0003 {
      */
     fun lengthOfLongestSubstring2(s: String): Int {
         if (s.isEmpty()) return 0
+        if (s.length == 1 || s.matches(Regex("(${s[0]})+"))) return 1
         var startIndex = 0
         var maxLength = 0
-        val map = mutableMapOf<Char, Int>()
+        val map = mutableMapOf<String, Int>()
         for (i in s.indices) {
-            if (map.containsKey(s[i])) {
-                maxLength = max(maxLength, i - startIndex)
-                startIndex = map[s[i]]!! + 1
+            if (map.containsKey("${s[i]}")) {
+                maxLength = Math.max(maxLength, i - startIndex)
+                startIndex = map["${s[i]}"]!! + 1
             }
-            map[s[i]] = i
+            map["${s[i]}"] = i
         }
         return maxLength
     }
@@ -59,8 +60,8 @@ fun main() {
     val clazz = ALGO0003()
     val str = "pwwkew"
 
-    println(clazz.lengthOfLongestSubstring1(" "))
-    println(clazz.lengthOfLongestSubstring2(" "))
+    println(clazz.lengthOfLongestSubstring1("au"))
+    println(clazz.lengthOfLongestSubstring2("au"))
 
 //    (clazz::lengthOfLongestSubstring1).test(str)
 //    (clazz::lengthOfLongestSubstring2).test(str)
