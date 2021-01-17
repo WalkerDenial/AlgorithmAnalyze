@@ -1,5 +1,7 @@
 package com.wd.algorithm.leetcode
 
+import com.wd.algorithm.test
+
 /**
  * 3. 无重复字符的最长子串
  *
@@ -14,21 +16,23 @@ class ALGO0003 {
      * 时间复杂度 T(n²)
      */
     fun lengthOfLongestSubstring1(s: String): Int {
-        if (s.isEmpty()) return 0
-        if (s.length == 1 || s.matches(Regex("(${s[0]})+"))) return 1
         var endIndex = 0
         var maxLength = 0
-        val set = hashSetOf<String>()
-        for (i in s.indices) {
-            set.clear()
-            set.add("${s[i]}")
+        val data = s.toCharArray()
+        val set = HashSet<Int>(data.size)
+        for (i in data.indices) {
             endIndex = i
-            for (j in (i + 1) until s.length) {
+            set.clear()
+            set.add(data[i].toInt())
+            if (i == data.size - 1) endIndex++
+            else for (j in (i + 1) until data.size) {
                 endIndex = j
-                if (set.contains("${s[j]}")) break
-                else set.add("${s[j]}")
+                val index = data[j].toInt()
+                if (set.contains(index)) break
+                set.add(index)
+                if (j == s.length - 1) endIndex++
             }
-            maxLength = Math.max(maxLength, endIndex - i)
+            maxLength = maxLength.coerceAtLeast(endIndex - i)
         }
         return maxLength
     }
@@ -39,17 +43,18 @@ class ALGO0003 {
      * 时间复杂度 T(n)
      */
     fun lengthOfLongestSubstring2(s: String): Int {
-        if (s.isEmpty()) return 0
-        if (s.length == 1 || s.matches(Regex("(${s[0]})+"))) return 1
         var startIndex = 0
         var maxLength = 0
-        val map = mutableMapOf<String, Int>()
-        for (i in s.indices) {
-            if (map.containsKey("${s[i]}")) {
-                maxLength = Math.max(maxLength, i - startIndex)
-                startIndex = map["${s[i]}"]!! + 1
+        val data = s.toCharArray()
+        val map = HashMap<Int, Int>(data.size)
+        for (i in data.indices) {
+            val index = data[i].toInt()
+            if (map.containsKey(index) && map[index]!! >= startIndex) {
+                maxLength = maxLength.coerceAtLeast(i - startIndex)
+                startIndex = map[index]!! + 1
             }
-            map["${s[i]}"] = i
+            map[index] = i
+            if (i == s.length - 1) maxLength = maxLength.coerceAtLeast(i + 1 - startIndex)
         }
         return maxLength
     }
@@ -60,9 +65,6 @@ fun main() {
     val clazz = ALGO0003()
     val str = "pwwkew"
 
-    println(clazz.lengthOfLongestSubstring1("au"))
-    println(clazz.lengthOfLongestSubstring2("au"))
-
-//    (clazz::lengthOfLongestSubstring1).test(str)
-//    (clazz::lengthOfLongestSubstring2).test(str)
+    (clazz::lengthOfLongestSubstring1).test(str)
+    (clazz::lengthOfLongestSubstring2).test(str)
 }
