@@ -31,14 +31,12 @@ class ALGO0001 {
      * 采用 Map 作为缓存的方式
      * 时间复杂度 T(n)
      */
-    fun twoSum2(num: IntArray, target: Int): IntArray {
+    fun twoSum2(nums: IntArray, target: Int): IntArray {
         val paramMap = mutableMapOf<Int, Int>()
-        for (i in num.indices) {
-            val diff = target - num[i]
-            // 如果数据匹配，则返回结果
-            if (paramMap.containsKey(diff)) return intArrayOf(paramMap[diff]!!, i)
-            // 如果数据不匹配，则计入缓存中
-            paramMap[num[i]] = i
+        for ((i, n) in nums.withIndex()) {
+            val index = paramMap[target - n]
+            if (index != null) return intArrayOf(index, i)
+            paramMap[nums[i]] = i
         }
         return intArrayOf(0, 0)
     }
