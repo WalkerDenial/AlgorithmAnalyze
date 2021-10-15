@@ -29,7 +29,7 @@ class ALGO0002 {
         val result = (num1 + num2).toString().reversed() // 求出结果并逆序
         val data = IntArray(result.length)  // 转换成数组
         for (i in result.indices) data[i] = result[i].toString().toInt()
-        return getListNode(data)!! // 获取返回结果
+        return getListNode(data) // 获取返回结果
     }
 
     /**
@@ -37,21 +37,29 @@ class ALGO0002 {
      * 按节点进位处理
      * 时间复杂度 T(n)
      */
-    fun addTwoNumbers2(l1: ListNode, l2: ListNode): ListNode {
-        var node = ListNode(0) // 待返回数据
-        var curr = node // 待返回数据当前节点
-        var currNode1: ListNode? = l1 // l1 当前节点
-        var currNode2: ListNode? = l2 // l2 当前节点
-        var carry = 0 // 进位值
-        while (currNode1 != null || currNode2 != null) {
-            val result = (currNode1?.`val` ?: 0) + (currNode2?.`val` ?: 0) + carry
-            carry = result / 10
-            curr.next = ListNode(result % 10)
+    fun addTwoNumbers2(l1: ListNode?, l2: ListNode?): ListNode {
+        var node1 = l1
+        var node2 = l2
+        val node = ListNode(-1)
+        var curr = node
+        var offset = 0
+        while (node1 != null || node2 != null) {
+            val value1 = node1?.`val` ?: 0
+            val value2 = node2?.`val` ?: 0
+            val result = value1 + value2 + offset
+            val value = result.rem(10)
+            offset = result.div(10)
+            val newNode = ListNode(value)
+
+            node1?.let { node1 = it.next }
+            node2?.let { node2 = it.next }
+
+            curr.next = newNode
             curr = curr.next!!
-            if (currNode1 != null) currNode1 = currNode1.next
-            if (currNode2 != null) currNode2 = currNode2.next
         }
-        if (carry == 1) curr?.next = ListNode(carry) // 虽然测试结束，如果有进位，需要增加一个节点
+        if (offset > 0) {
+            curr.next = ListNode(1)
+        }
         return node.next!!
     }
 
