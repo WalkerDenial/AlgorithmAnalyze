@@ -1,6 +1,7 @@
 package com.wd.algorithm.leetcode
 
 import com.wd.algorithm.test
+import kotlin.math.max
 
 /**
  * 3. 无重复字符的最长子串
@@ -43,18 +44,16 @@ class ALGO0003 {
      * 时间复杂度 T(n)
      */
     fun lengthOfLongestSubstring2(s: String): Int {
-        var startIndex = 0
-        var maxLength = 0
-        val data = s.toCharArray()
-        val map = HashMap<Int, Int>(data.size)
-        for (i in data.indices) {
-            val index = data[i].toInt()
-            if (map.containsKey(index) && map[index]!! >= startIndex) {
-                maxLength = maxLength.coerceAtLeast(i - startIndex)
-                startIndex = map[index]!! + 1
-            }
-            map[index] = i
-            if (i == s.length - 1) maxLength = maxLength.coerceAtLeast(i + 1 - startIndex)
+        if (s.isEmpty()) return 0
+        val array = IntArray(128) { -1 }
+        var startIndex = -1
+        var maxLength = 1
+        var endChar: Int
+        for (end in s.indices) {
+            endChar = s[end].code
+            startIndex = max(startIndex, array[endChar])
+            maxLength = max(maxLength, end - startIndex)
+            array[endChar] = end
         }
         return maxLength
     }
