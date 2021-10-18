@@ -1,5 +1,7 @@
 package com.wd.algorithm.leetcode
 
+import com.wd.algorithm.test
+
 /**
  * 4. 寻找两个正序数组的中位数
  *
@@ -56,7 +58,6 @@ fun main() {
     val clazz = ALGO0004()
     val num1 = intArrayOf(1, 2, 3)
     val num2 = intArrayOf(4, 5, 6)
-//    (clazz::findMedianSortedArrays1).test(num1, num2)
-//    (clazz::findMedianSortedArrays2).test(num1, num2)
-    println(clazz.findMedianSortedArrays2(intArrayOf(1, 2), intArrayOf(3, 4)))
+    (clazz::findMedianSortedArrays1).test(num1, num2)
+    (clazz::findMedianSortedArrays2).test(num1, num2)
 }
