@@ -1,6 +1,8 @@
 package com.wd.algorithm.leetcode
 
+import com.wd.algorithm.test
 import kotlin.math.max
+import kotlin.math.min
 
 /**
  * 5. 最长回文子串
@@ -89,31 +91,40 @@ class ALGO0005 {
     fun longestPalindrome3(s: String): String {
         val length = s.length
         if (length < 2) return s
-        val p = IntArray(length) { 0 }
+
+        val str = manacherString(s)
+        val p = IntArray(str.length)
+        var r = -1
         var c = 0
-        var r = 0
-        var mirror = 0
-        for (i in 1 until length) {
-            mirror = 2 * c - i
-            if (r > i) {
-                if (r - i > p[mirror]) {
-                    p[i] = p[mirror]
-                    continue
-                } else {
-                    p[i] = r - i
-                }
-            }
-            while (s[i - p[i] - 1] == s[i + p[i] + 1]) {
-                p[i] += 1
+        var index = -1
+        var maxLength = 0
+        for (i in str.indices) {
+            p[i] = if (r > i) min(p[2 * index - i], r - i) else 1
+            while (i + p[i] < str.length && i - p[i] >= 0) {
+                if (str[i + p[i]] == str[i - p[i]]) p[i]++
+                else break
             }
             if (i + p[i] > r) {
-                c = i
                 r = i + p[i]
+                index = i
             }
         }
-        println(c)
-        println(r)
-        return s
+        for (i in str.indices) {
+            if (p[i] > maxLength) {
+                maxLength = p[i]
+                c = i
+            }
+        }
+        maxLength--
+        c = (c - 1) / 2
+        val begin: Int = c - (maxLength - 1) / 2
+        return s.substring(begin, begin + maxLength)
+    }
+
+    private fun manacherString(s: String): String {
+        val sb = StringBuffer("#")
+        for (item in s) sb.append("$item#")
+        return sb.toString()
     }
 
 }
@@ -121,7 +132,7 @@ class ALGO0005 {
 fun main() {
     val clazz = ALGO0005()
     val str = "ababaababa"
-//    (clazz::longestPalindrome1).test(str)
-//    (clazz::longestPalindrome2).test(str)
-    println(clazz.longestPalindrome3(str))
+    (clazz::longestPalindrome1).test(str)
+    (clazz::longestPalindrome2).test(str)
+    (clazz::longestPalindrome3).test(str)
 }
