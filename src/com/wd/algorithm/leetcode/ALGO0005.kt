@@ -121,9 +121,9 @@ class ALGO0005 {
         return s.substring(begin, begin + maxLength)
     }
 
-    private fun manacherString(s: String): String {
-        val sb = StringBuffer("#")
-        for (item in s) sb.append("$item#")
+    private fun manacherString(s: String, flag: String = "#"): String {
+        val sb = StringBuffer(flag)
+        for (item in s) sb.append("$item$flag")
         return sb.toString()
     }
 
