@@ -1,5 +1,7 @@
 package com.wd.algorithm.leetcode
 
+import com.wd.algorithm.test
+
 /**
  * 6. Z 字形变换
  *
@@ -39,6 +41,7 @@ class ALGO0006 {
 
 fun main() {
     val clazz = ALGO0006()
-    println("PINALSIGYAHRPI")
-    println(clazz.convert("PAYPALISHIRING", 4))
+    val str = "PINALSIGYAHRPI"
+    val row = 4
+    (clazz::convert).test(str, row)
 }
