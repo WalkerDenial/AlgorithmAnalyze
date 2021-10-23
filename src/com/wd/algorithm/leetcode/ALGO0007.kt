@@ -1,5 +1,7 @@
 package com.wd.algorithm.leetcode
 
+import com.wd.algorithm.test
+
 /**
  * 7. 整数反转
  *
@@ -26,6 +28,5 @@ class ALGO0007 {
 fun main() {
     val clazz = ALGO0007()
     val num = 964632435
-//    (clazz::reverse).test(num)
-    println(clazz.reverse(num))
+    (clazz::reverse).test(num)
 }
