@@ -19,7 +19,37 @@ package com.wd.algorithm.leetcode
 class ALGO0008 {
 
     fun myAtoi(s: String): Int {
-        return 0
+        var num: Long? = null
+        var negative: Boolean? = null
+        for (c in s) {
+            if (c == ' ') {
+                if (num == null && negative == null) continue
+                else break
+            }
+            if (c == '-') {
+                if (negative == null && num == null) {// 没数没符号
+                    negative = true
+                    continue
+                } else break
+            } else if (c == '+') {
+                if (negative == null && num == null) { // 没数没符号
+                    negative = false
+                    continue
+                } else break
+            }
+            if (c < '0' || c > '9') break
+            if (num == null) num = 0
+            num = num * 10 + (c - '0');// 组合数字
+            if (num >= Integer.MAX_VALUE) break
+        }
+        if (num == null) num = 0
+        val n = if (negative == null) num else {
+            if (negative) -num else num
+        }
+        val ans = if (n >= Integer.MAX_VALUE) Integer.MAX_VALUE else {
+            if (n <= Integer.MIN_VALUE) Integer.MIN_VALUE else n.toInt()
+        }
+        return ans
     }
 
 }
