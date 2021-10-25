@@ -1,5 +1,7 @@
 package com.wd.algorithm.leetcode
 
+import com.wd.algorithm.test
+
 /**
  * 8. 字符串转换整数 (atoi)
  *
@@ -91,5 +93,5 @@ class ALGO0008 {
 fun main() {
     val clazz = ALGO0008()
     val str = "  -42"
-    println(clazz.myAtoi2(str))
+    (clazz::myAtoi2).test(str)
 }
