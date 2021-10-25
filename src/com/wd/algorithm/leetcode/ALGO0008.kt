@@ -18,7 +18,7 @@ package com.wd.algorithm.leetcode
  */
 class ALGO0008 {
 
-    fun myAtoi(s: String): Int {
+    fun myAtoi1(s: String): Int {
         var num: Long? = null
         var negative: Boolean? = null
         for (c in s) {
@@ -52,8 +52,44 @@ class ALGO0008 {
         return ans
     }
 
+    fun myAtoi2(s: String): Int {
+        val str = s.trim()
+        if (str.isEmpty()) return 0
+        val len = str.length
+        var sign = 1
+        var index = 0
+        val firstChar = str[index]
+        if (firstChar == '+') {
+            index++
+        } else if (firstChar == '-') {
+            index++
+            sign = -1
+        }
+        var res = 0
+        val maxData = Int.MAX_VALUE / 10
+        val minData = Int.MIN_VALUE / 10
+        val maxSuffix = Int.MAX_VALUE % 10
+        val minSuffix = Int.MIN_VALUE % 10
+        while (index < len) {
+            val currChar = str[index]
+            if (currChar !in '0'..'9') break
+            val currValue = currChar - '0'
+            if (res > maxData || res == maxData && currValue > maxSuffix) {
+                return Int.MAX_VALUE
+            }
+            if (res < minData || res == minData && currValue > -minSuffix) {
+                return Int.MIN_VALUE
+            }
+            res = res * 10 + sign * currValue
+            index++
+        }
+        return res
+    }
+
 }
 
 fun main() {
     val clazz = ALGO0008()
+    val str = "  -42"
+    println(clazz.myAtoi2(str))
 }
