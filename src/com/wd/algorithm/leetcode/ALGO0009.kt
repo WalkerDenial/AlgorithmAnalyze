@@ -1,5 +1,7 @@
 package com.wd.algorithm.leetcode
 
+import com.wd.algorithm.test
+
 /**
  * 9. 回文数
  *
@@ -51,6 +53,7 @@ class ALGO0009 {
 fun main() {
     val clazz = ALGO0009()
     val num = 21120
-//    (clazz::isPalindrome).test(num)
-    println(clazz.isPalindrome1(num))
+    (clazz::isPalindrome1).test(num)
+    (clazz::isPalindrome2).test(num)
+    (clazz::isPalindrome3).test(num)
 }
